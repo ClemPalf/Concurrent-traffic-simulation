@@ -6,7 +6,7 @@ Appropriate mutexes and locks were used to protect the program from data races.
 <img src="data/traffic_simulation.gif"/>
 
 
-## Dependencies for Running Locally
+## Dependencies
 * cmake >= 2.8
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
