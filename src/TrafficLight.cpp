@@ -31,7 +31,8 @@ template <typename T> void MessageQueue<T>::send(T &&msg) {
   // add vector to queue
   std::cout << "   Message " << msg << " has been sent to the queue"
             << std::endl;
-  _queue.push_back(std::move(msg));
+  _queue.clear();
+  _queue.emplace_back(std::move(msg));
   _cond.notify_one(); // notify client after pushing new Vehicle into vector
 }
 
@@ -87,15 +88,13 @@ void TrafficLight::cycleThroughPhases() {
       _currentPhase = (_currentPhase == TrafficLightPhase::green) ? red : green;
 
       // send update method to message queue using move semantics.
-      TrafficLightPhase phase = _currentPhase;
-      _messages.send(std::move(phase));
+      _messages.send(std::move(_currentPhase));
 
       // pick up a new cycle duration and reset start time
       cycle_duration = dist(eng);
       start = std::chrono::high_resolution_clock::now();
-
-      // Wait between cycles
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+    // Wait between cycles
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
 }
